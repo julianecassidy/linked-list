@@ -48,14 +48,24 @@ class LinkedList {
   pop() {
     const removedNode = this.tail;
 
-    let item = this.head;
-    while (item.next !== null) {
-      item = item.next;
+    let currentItem = this.head;
+    let nextItem = currentItem.next;
+
+    // special case: list is 1 item long
+    if (this.length === 1) {
+      this.head = null;
+      this.tail = this.head;
+      this.length--;
+      return removedNode.val;
     }
 
-    item.next = null;
-    console.log("item is", item);
-    this.tail = item;
+    while (nextItem.next !== null) {
+      currentItem = currentItem.next;
+      nextItem = nextItem.next;
+    }
+
+    currentItem.next = null;
+    this.tail = currentItem;
     this.length--;
 
     return removedNode.val;
@@ -70,7 +80,7 @@ class LinkedList {
       this.head = null;
       this.tail = null;
     } else {
-      this.head = removedNode.next
+      this.head = removedNode.next;
     }
     this.length--;
 
@@ -95,13 +105,65 @@ class LinkedList {
   /** setAt(idx, val): set val at idx to val */
 
   setAt(idx, val) {
+    let current = this.head;
+    let count = 0;
 
+    while (current !== null) {
+      if (count === idx) {
+        current.val = val;
+        return;
+      }
+      current = current.next;
+      count++;
+    }
+
+    // if index doesn't exist
+    throw new Error;
   }
 
   /** insertAt(idx, val): add node w/val before idx. */
 
   insertAt(idx, val) {
+    const newNode = new Node(val);
+    let count = 0;
 
+    // throw error if index is invalid
+    if (idx > this.length || idx < 0) throw new Error;
+
+    // insert into empty list
+    if (this.length === 0) {
+      this.head = newNode;
+      this.tail = this.head;
+      this.length++;
+      return;
+    }
+
+    let currentItem = this.head;
+    let nextItem = currentItem.next;
+
+    // handles index at first/last positions
+    if (idx === 0) {
+      this.head = newNode;
+      newNode.next = currentItem;
+      this.length++;
+      return;
+    }
+    if (idx === this.length) {
+      this.tail.next = newNode;
+      this.tail = newNode;
+      this.length++;
+      return;
+    }
+
+    while (currentItem !== null && count + 1 !== idx) {
+      currentItem = currentItem.next;
+      nextItem = nextItem.next;
+      count++;
+    }
+
+    currentItem.next = newNode;
+    newNode.next = nextItem;
+    this.length++;
   }
 
   /** removeAt(idx): return & remove item at idx, */
@@ -113,7 +175,7 @@ class LinkedList {
   /** average(): return an average of all values in the list */
 
   average() {
-    
+
   }
 }
 
