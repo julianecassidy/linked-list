@@ -165,7 +165,7 @@ class LinkedList {
     currentItem.next = newNode;
     newNode.next = nextItem;
     this.length++;
-  } 
+  }
 }
 
 /** Queue: chained-together nodes where you can
@@ -203,13 +203,13 @@ class Queue {
   /** peek(): return the value of the first node in the queue. */
 
   peek() {
-
+    return this._ll.head.val;
   }
 
   /** isEmpty(): return true if the queue is empty, otherwise false */
 
   isEmpty() {
-
+    return (this._ll.head === null);
   }
 }
 
